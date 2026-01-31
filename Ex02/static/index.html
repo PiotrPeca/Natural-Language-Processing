@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Učíme se česky - Gramatyka czeska</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #eee;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #0f3460;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+        
+        .wizard {
+            background: rgba(15, 52, 96, 0.5);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #0f3460;
+        }
+        
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #e94560;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+        .step-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #0f3460;
+            border-radius: 8px;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+        
+        select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .radio-option {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .radio-option input {
+            display: none;
+        }
+        
+        .radio-option label {
+            display: block;
+            padding: 12px 20px;
+            background: #1a1a2e;
+            border: 2px solid #0f3460;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #fff;
+        }
+        
+        .radio-option input:checked + label {
+            border-color: #e94560;
+            background: rgba(233, 69, 96, 0.2);
+        }
+        
+        .radio-option label:hover {
+            border-color: #e94560;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checkbox-option label {
+            margin: 0;
+            cursor: pointer;
+            color: #fff;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-prev {
+            background: #0f3460;
+            color: #fff;
+        }
+        
+        .btn-prev:hover {
+            background: #1a4a7a;
+        }
+        
+        .btn-prev:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-next {
+            background: #e94560;
+            color: #fff;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .btn-next:hover {
+            background: #d63850;
+        }
+        
+        .btn-build {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: #fff;
+            flex: 1;
+        }
+        
+        .btn-build:hover {
+            transform: scale(1.02);
+        }
+        
+        .btn-reset {
+            background: #e94560;
+            color: #fff;
+        }
+        
+        /* Progress bar */
+        .progress {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0f3460;
+            transition: all 0.3s;
+        }
+        
+        .progress-dot.active {
+            background: #e94560;
+            transform: scale(1.2);
+        }
+        
+        .progress-dot.completed {
+            background: #00b894;
+        }
+        
+        /* Result section */
+        .result {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #00b894;
+            text-align: center;
+        }
+        
+        .result h2 {
+            color: #00b894;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .result-sentence {
+            font-size: 2rem;
+            color: #fff;
+            padding: 20px;
+            background: rgba(0, 184, 148, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            word-break: break-word;
+        }
+        
+        .result-breakdown {
+            text-align: left;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .result-breakdown h3 {
+            color: #94a3b8;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #0f3460;
+        }
+        
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .breakdown-label {
+            color: #94a3b8;
+        }
+        
+        .breakdown-value {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.85rem;
+            border: 1px solid #0f3460;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+        }
+        
+        /* Gender badge */
+        .gender-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+        
+        .gender-m_zyw { background: #3498db; }
+        .gender-m_nzyw { background: #2980b9; }
+        .gender-f { background: #e91e63; }
+        .gender-n { background: #9b59b6; }
+        
+        /* Section divider */
+        .section-divider {
+            border-top: 1px solid #0f3460;
+            margin: 25px 0;
+            padding-top: 25px;
+        }
+        
+        .section-label {
+            color: #e94560;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        /* Help text */
+        .help-text {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Translation display */
+        .translation {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .wizard {
+                padding: 20px;
+            }
+            
+            .radio-option {
+                min-width: 100px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn-next {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Učíme se česky</h1>
+            <p>Interaktywny kreator zdań w języku czeskim</p>
+        </header>
+        
+        <div class="progress">
+            <div class="progress-dot active" data-step="1"></div>
+            <div class="progress-dot" data-step="2"></div>
+            <div class="progress-dot" data-step="3"></div>
+            <div class="progress-dot" data-step="4"></div>
+        </div>
+        
+        <div class="wizard">
+            <!-- KROK 1: Podmiot -->
+            <div class="step active" data-step="1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div>
+                        <div class="step-title">Podmiot (Subjekt)</div>
+                        <div class="step-subtitle">Wybierz rzeczownik i jego określenia</div>
+                    </div>
+                </div>
+                
+                <div class="section-label">Rzeczownik</div>
+                
+                <div class="form-group">
+                    <label>Wybierz rzeczownik:</label>
+                    <select id="subject-noun">
+                        <option value="">-- wybierz --</option>
+                    </select>
+                    <div id="subject-noun-info" class="help-text"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Liczba:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="subject-number" id="subject-sg" value="sg" checked>
+                            <label for="subject-sg">Pojedyncza</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="subject-number" id="subject-pl" value="pl">
+                            <label for="subject-pl">Mnoga</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider">
+                    <div class="section-label">Określniki (opcjonalne)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Zaimek wskazujący:</label>
+                    <select id="subject-demonstrative">
+                        <option value="">-- brak --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Zaimek dzierżawczy:</label>
+                    <select id="subject-possessive">
+                        <option value="">-- brak --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Przymiotnik:</label>
+                    <select id="subject-adjective">
+                        <option value="">-- brak --</option>
+                    </select>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn-prev" disabled>Wstecz</button>
+                    <button class="btn-next" onclick="nextStep()">Dalej</button>
+                </div>
+            </div>
+            
+            <!-- KROK 2: Czasownik -->
+            <div class="step" data-step="2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div>
+                        <div class="step-title">Czasownik (Sloveso)</div>
+                        <div class="step-subtitle">Wybierz czasownik i jego formę</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Wybierz czasownik (bezokolicznik):</label>
+                    <select id="verb">
+                        <option value="">-- wybierz --</option>
+                    </select>
+                    <div id="verb-info" class="help-text"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Osoba i liczba:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="verb-person" id="vp-1sg" value="1-sg">
+                            <label for="vp-1sg">já (ja)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-person" id="vp-2sg" value="2-sg">
+                            <label for="vp-2sg">ty (ty)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-person" id="vp-3sg" value="3-sg" checked>
+                            <label for="vp-3sg">on/ona/ono</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-person" id="vp-1pl" value="1-pl">
+                            <label for="vp-1pl">my (my)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-person" id="vp-2pl" value="2-pl">
+                            <label for="vp-2pl">vy (wy)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-person" id="vp-3pl" value="3-pl">
+                            <label for="vp-3pl">oni/ony/ona</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Czas:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="verb-tense" id="tense-present" value="present" checked>
+                            <label for="tense-present">Teraźniejszy</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-tense" id="tense-past" value="past">
+                            <label for="tense-past">Przeszły</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-tense" id="tense-future" value="future">
+                            <label for="tense-future">Przyszły</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tryb:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="verb-mood" id="mood-indicative" value="indicative" checked>
+                            <label for="mood-indicative">Oznajmujący</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-mood" id="mood-imperative" value="imperative">
+                            <label for="mood-imperative">Rozkazujący</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="verb-mood" id="mood-conditional" value="conditional">
+                            <label for="mood-conditional">Przypuszczający</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Forma zdania:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="verb-negative">
+                            <label for="verb-negative">Przeczenie (ne-)</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="verb-question">
+                            <label for="verb-question">Pytanie (?)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn-prev" onclick="prevStep()">Wstecz</button>
+                    <button class="btn-next" onclick="nextStep()">Dalej</button>
+                </div>
+            </div>
+            
+            <!-- KROK 3: Dopełnienie -->
+            <div class="step" data-step="3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div>
+                        <div class="step-title">Dopełnienie (Objekt) - opcjonalne</div>
+                        <div class="step-subtitle">Dodaj dopełnienie do zdania</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="has-object" onchange="toggleObject()">
+                        <label for="has-object">Dodaj dopełnienie</label>
+                    </div>
+                </div>
+                
+                <div id="object-section" style="display: none;">
+                    <div class="section-label">Rzeczownik</div>
+                    
+                    <div class="form-group">
+                        <label>Wybierz rzeczownik:</label>
+                        <select id="object-noun">
+                            <option value="">-- wybierz --</option>
+                        </select>
+                        <div id="object-noun-info" class="help-text"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Liczba:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="object-number" id="object-sg" value="sg" checked>
+                                <label for="object-sg">Pojedyncza</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="object-number" id="object-pl" value="pl">
+                                <label for="object-pl">Mnoga</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-divider">
+                        <div class="section-label">Określniki (opcjonalne)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Zaimek wskazujący:</label>
+                        <select id="object-demonstrative">
+                            <option value="">-- brak --</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Zaimek dzierżawczy:</label>
+                        <select id="object-possessive">
+                            <option value="">-- brak --</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Przymiotnik:</label>
+                        <select id="object-adjective">
+                            <option value="">-- brak --</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn-prev" onclick="prevStep()">Wstecz</button>
+                    <button class="btn-next" onclick="nextStep()">Dalej</button>
+                </div>
+            </div>
+            
+            <!-- KROK 4: Wynik -->
+            <div class="step" data-step="4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div>
+                        <div class="step-title">Gotowe zdanie</div>
+                        <div class="step-subtitle">Oto Twoje zdanie po czesku!</div>
+                    </div>
+                </div>
+                
+                <div class="result">
+                    <h2>Twoje zdanie:</h2>
+                    <div class="result-sentence" id="result-sentence">-</div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Analiza zdania:</h3>
+                        <div id="breakdown-content"></div>
+                    </div>
+                    
+                    <div class="buttons" style="justify-content: center;">
+                        <button class="btn-prev" onclick="prevStep()">Wstecz</button>
+                        <button class="btn-build" onclick="buildSentence()">Zbuduj zdanie</button>
+                        <button class="btn-reset" onclick="resetWizard()">Od nowa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Stan aplikacji
+        let currentStep = 1;
+        const totalSteps = 4;
+        
+        // Dane z API
+        let nouns = [];
+        let adjectives = [];
+        let verbs = [];
+        let possessivePronouns = [];
+        let demonstrativePronouns = [];
+        
+        // Inicjalizacja
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadData();
+            populateSelects();
+        });
+        
+        // Pobierz dane z API
+        async function loadData() {
+            try {
+                const [nounsRes, adjRes, verbsRes, possRes, demRes] = await Promise.all([
+                    fetch('/api/nouns'),
+                    fetch('/api/adjectives'),
+                    fetch('/api/verbs'),
+                    fetch('/api/pronouns/possessive'),
+                    fetch('/api/pronouns/demonstrative')
+                ]);
+                
+                nouns = await nounsRes.json();
+                adjectives = await adjRes.json();
+                verbs = await verbsRes.json();
+                possessivePronouns = await possRes.json();
+                demonstrativePronouns = await demRes.json();
+            } catch (e) {
+                console.error('Błąd ładowania danych:', e);
+            }
+        }
+        
+        // Wypełnij selecty
+        function populateSelects() {
+            // Rzeczowniki
+            const nounSelects = ['subject-noun', 'object-noun'];
+            nounSelects.forEach(id => {
+                const select = document.getElementById(id);
+                nouns.forEach(n => {
+                    const opt = document.createElement('option');
+                    opt.value = n.word;
+                    opt.textContent = `${n.word} (${n.translation})`;
+                    opt.dataset.gender = n.gender;
+                    opt.dataset.translation = n.translation;
+                    select.appendChild(opt);
+                });
+            });
+            
+            // Przymiotniki
+            const adjSelects = ['subject-adjective', 'object-adjective'];
+            adjSelects.forEach(id => {
+                const select = document.getElementById(id);
+                adjectives.forEach(a => {
+                    const opt = document.createElement('option');
+                    opt.value = a.word;
+                    opt.textContent = `${a.word} (${a.translation})`;
+                    select.appendChild(opt);
+                });
+            });
+            
+            // Czasowniki
+            const verbSelect = document.getElementById('verb');
+            verbs.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.word;
+                opt.textContent = `${v.word} (${v.translation})`;
+                opt.dataset.translation = v.translation;
+                verbSelect.appendChild(opt);
+            });
+            
+            // Zaimki dzierżawcze
+            const possSelects = ['subject-possessive', 'object-possessive'];
+            possSelects.forEach(id => {
+                const select = document.getElementById(id);
+                possessivePronouns.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.word;
+                    opt.textContent = `${p.word} (${p.translation})`;
+                    select.appendChild(opt);
+                });
+            });
+            
+            // Zaimki wskazujące
+            const demSelects = ['subject-demonstrative', 'object-demonstrative'];
+            demSelects.forEach(id => {
+                const select = document.getElementById(id);
+                demonstrativePronouns.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d.word;
+                    opt.textContent = `${d.word} (${d.translation})`;
+                    select.appendChild(opt);
+                });
+            });
+            
+            // Event listenery dla info
+            document.getElementById('subject-noun').addEventListener('change', (e) => {
+                updateNounInfo('subject-noun', 'subject-noun-info');
+            });
+            document.getElementById('object-noun').addEventListener('change', (e) => {
+                updateNounInfo('object-noun', 'object-noun-info');
+            });
+            document.getElementById('verb').addEventListener('change', (e) => {
+                updateVerbInfo();
+            });
+        }
+        
+        function updateNounInfo(selectId, infoId) {
+            const select = document.getElementById(selectId);
+            const info = document.getElementById(infoId);
+            const option = select.options[select.selectedIndex];
+            
+            if (option && option.dataset.gender) {
+                const genderNames = {
+                    'm_zyw': 'męski żywotny',
+                    'm_nzyw': 'męski nieżywotny',
+                    'f': 'żeński',
+                    'n': 'nijaki'
+                };
+                info.textContent = `Rodzaj: ${genderNames[option.dataset.gender]}`;
+            } else {
+                info.textContent = '';
+            }
+        }
+        
+        function updateVerbInfo() {
+            const select = document.getElementById('verb');
+            const info = document.getElementById('verb-info');
+            const option = select.options[select.selectedIndex];
+            
+            if (option && option.dataset.translation) {
+                info.textContent = `Tłumaczenie: ${option.dataset.translation}`;
+            } else {
+                info.textContent = '';
+            }
+        }
+        
+        // Nawigacja kroków
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.progress-dot[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.progress-dot[data-step="${currentStep}"]`).classList.add('completed');
+                
+                currentStep++;
+                
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.progress-dot[data-step="${currentStep}"]`).classList.add('active');
+                
+                if (currentStep === totalSteps) {
+                    buildSentence();
+                }
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.progress-dot[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.progress-dot[data-step="${currentStep}"]`).classList.remove('completed');
+                
+                currentStep--;
+                
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.progress-dot[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.progress-dot[data-step="${currentStep}"]`).classList.remove('completed');
+            }
+        }
+        
+        function toggleObject() {
+            const section = document.getElementById('object-section');
+            const checkbox = document.getElementById('has-object');
+            section.style.display = checkbox.checked ? 'block' : 'none';
+        }
+        
+        function resetWizard() {
+            // Reset formularza
+            document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+            document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+            document.getElementById('vp-3sg').checked = true;
+            document.getElementById('tense-present').checked = true;
+            document.getElementById('mood-indicative').checked = true;
+            document.getElementById('subject-sg').checked = true;
+            document.getElementById('object-sg').checked = true;
+            
+            toggleObject();
+            
+            // Reset kroków
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.progress-dot').forEach(d => {
+                d.classList.remove('active', 'completed');
+            });
+            
+            currentStep = 1;
+            document.querySelector('.step[data-step="1"]').classList.add('active');
+            document.querySelector('.progress-dot[data-step="1"]').classList.add('active');
+            
+            // Reset info
+            document.getElementById('subject-noun-info').textContent = '';
+            document.getElementById('object-noun-info').textContent = '';
+            document.getElementById('verb-info').textContent = '';
+        }
+        
+        // Budowanie zdania
+        async function buildSentence() {
+            // Zbierz dane podmiotu
+            const subjectData = {
+                noun: document.getElementById('subject-noun').value,
+                number: document.querySelector('input[name="subject-number"]:checked').value,
+                adjective: document.getElementById('subject-adjective').value || null,
+                possessive: document.getElementById('subject-possessive').value || null,
+                determiner: document.getElementById('subject-demonstrative').value || null
+            };
+            
+            // Zbierz dane czasownika
+            const verbPerson = document.querySelector('input[name="verb-person"]:checked').value.split('-');
+            const verbData = {
+                verb: document.getElementById('verb').value,
+                person: parseInt(verbPerson[0]),
+                number: verbPerson[1],
+                tense: document.querySelector('input[name="verb-tense"]:checked').value,
+                mood: document.querySelector('input[name="verb-mood"]:checked').value,
+                negative: document.getElementById('verb-negative').checked,
+                question: document.getElementById('verb-question').checked
+            };
+            
+            // Zbierz dane dopełnienia (jeśli jest)
+            let objectData = null;
+            if (document.getElementById('has-object').checked) {
+                objectData = {
+                    noun: document.getElementById('object-noun').value,
+                    number: document.querySelector('input[name="object-number"]:checked').value,
+                    adjective: document.getElementById('object-adjective').value || null,
+                    possessive: document.getElementById('object-possessive').value || null,
+                    determiner: document.getElementById('object-demonstrative').value || null
+                };
+            }
+            
+            try {
+                const response = await fetch('/api/build', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        subject: subjectData,
+                        verb: verbData,
+                        object: objectData
+                    })
+                });
+                
+                const result = await response.json();
+                document.getElementById('result-sentence').textContent = result.sentence;
+                
+                // Wyświetl analizę
+                displayBreakdown(subjectData, verbData, objectData);
+                
+            } catch (e) {
+                console.error('Błąd budowania zdania:', e);
+                document.getElementById('result-sentence').textContent = 'Błąd!';
+            }
+        }
+        
+        function displayBreakdown(subject, verb, object) {
+            const content = document.getElementById('breakdown-content');
+            
+            const tenseNames = {
+                'present': 'teraźniejszy',
+                'past': 'przeszły',
+                'future': 'przyszły'
+            };
+            
+            const moodNames = {
+                'indicative': 'oznajmujący',
+                'imperative': 'rozkazujący',
+                'conditional': 'przypuszczający'
+            };
+            
+            const personNames = {
+                1: 'pierwsza',
+                2: 'druga',
+                3: 'trzecia'
+            };
+            
+            let html = `
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Podmiot:</span>
+                    <span class="breakdown-value">${subject.noun || '-'} (l. ${subject.number === 'sg' ? 'poj.' : 'mn.'})</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Czasownik:</span>
+                    <span class="breakdown-value">${verb.verb || '-'}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Osoba/Liczba:</span>
+                    <span class="breakdown-value">${personNames[verb.person]} os. l. ${verb.number === 'sg' ? 'poj.' : 'mn.'}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Czas:</span>
+                    <span class="breakdown-value">${tenseNames[verb.tense]}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Tryb:</span>
+                    <span class="breakdown-value">${moodNames[verb.mood]}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Forma:</span>
+                    <span class="breakdown-value">${verb.negative ? 'przecząca' : 'twierdząca'}${verb.question ? ', pytająca' : ''}</span>
+                </div>
+            `;
+            
+            if (object && object.noun) {
+                html += `
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Dopełnienie:</span>
+                        <span class="breakdown-value">${object.noun} (l. ${object.number === 'sg' ? 'poj.' : 'mn.'})</span>
+                    </div>
+                `;
+            }
+            
+            content.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
